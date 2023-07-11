@@ -1,0 +1,4 @@
+.toggle-without-caret::after {
+    display: none !important;
+  }
+

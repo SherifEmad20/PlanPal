@@ -1,0 +1,92 @@
+.icon-container {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    overflow-x: scroll;
+  }
+
+  .icon-container::-webkit-scrollbar{
+    width: 0 !important;
+    display: "none";
+
+  }
+  
+  .icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .golden-star {
+    color: #F8CD46;
+  }
+
+  .cards-dev{
+    overflow: scroll;
+  }
+
+  .cards-dev::-webkit-scrollbar {
+    width: 0 !important;
+    display: "none";
+  }
+
+  .cards-dev {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  .card-container::-webkit-scrollbar{
+    width: 0 !important;
+    display: "none";
+  }
+
+  .custom-card {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .review {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .review-header {
+    font-weight: bold;
+  }
+  
+  .review-input {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .review-input input {
+    flex: 1;
+    margin-right: 10px;
+  }
+ 
+
+  .search-form {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+  }
+  
+  .search-input {
+    margin-right: 0.5rem;
+    border-radius: 5px;
+    border-width: 1.5px;
+    flex: 1;
+
+  }
+  
+  .search-button {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    
+  }
