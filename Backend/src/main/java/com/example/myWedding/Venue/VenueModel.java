@@ -104,6 +104,7 @@ public class VenueModel {
         try {
             for (int i = 0; i < venueRepository.findAll().size(); i++) {
                 String BASE_URL = "http://${ML_ADDRESS:127.0.0.1}:${ML_PORT:5000}";
+                System.out.println(BASE_URL);
                 HttpClient.newHttpClient().send(HttpRequest.newBuilder()
                         .uri(URI.create(BASE_URL + "/getReviews/" +
                                 venueRepository.findAll().get(i).getVenueId()))
