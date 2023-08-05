@@ -1,0 +1,81 @@
+version: "3.8"
+
+services:
+  # Database
+  db:
+    image: mysql:latest
+
+    expose:
+      - 3306
+
+    restart: always
+
+    environment:
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=planPal
+
+    networks:
+      - planpal
+
+  # Backend
+  planpal_backend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+
+    environment:
+      - DB_ADDRESS=db
+      - DB_PORT=3306
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+
+    restart: always
+
+    depends_on:
+      - db
+    #      - bert_nlt
+
+    ports:
+      - "8080:8080"
+
+    networks:
+      - planpal
+
+  # Frontend
+  planpal_frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+
+    environment:
+      - BACKEND_BASE_URL=http://planpal_backend:8080/api/v1
+
+    ports:
+      - "3000:80"
+
+    restart: always
+
+    depends_on:
+      - planpal_backend
+
+    networks:
+      - planpal
+
+  # ML model
+  bert_nlt:
+    build:
+      context: ./RatingService
+      dockerfile: Dockerfile
+
+    ports:
+      - "5000:5000"
+
+    environment:
+      - BACKEND_ADDRESS=http://planpal_backend:8080 # Use the service name as the address
+
+    networks:
+      - planpal
+
+networks:
+  planpal:

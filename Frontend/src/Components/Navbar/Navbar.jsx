@@ -169,18 +169,18 @@ const Navbar = () => {
     }
 
     try {
-      let { data } = await axios.post(
-        "http://localhost:8080/api/v1/auth/register",
-        {
-          username: userName,
-          password: password,
-          email: email,
-          firstName: fname,
-          lastName: lname,
-          role: regRole,
-          phoneNumber: phoneNum,
-        }
-      );
+      const backendBaseUrl =
+        process.env.BACKEND_BASE_URL || "http://localhost:8080/api/v1";
+
+      let { data } = await axios.post(backendBaseUrl + "/auth/register", {
+        username: userName,
+        password: password,
+        email: email,
+        firstName: fname,
+        lastName: lname,
+        role: regRole,
+        phoneNumber: phoneNum,
+      });
       if (data.message === "success") {
         localStorage.setItem("accessToken", data.token);
         localStorage.setItem("isLoggedIn", true);
@@ -347,13 +347,13 @@ const Navbar = () => {
     }
 
     try {
-      let { data } = await axios.post(
-        "http://localhost:8080/api/v1/auth/login",
-        {
-          username: loginUserName,
-          password: loginPassword,
-        }
-      );
+      const backendBaseUrl =
+        process.env.BACKEND_BASE_URL || "http://localhost:8080/api/v1";
+
+      let { data } = await axios.post(backendBaseUrl + "/auth/login", {
+        username: loginUserName,
+        password: loginPassword,
+      });
       console.log(data.message);
       if (data.message === "success") {
         localStorage.setItem("accessToken", data.token);
@@ -380,7 +380,8 @@ const Navbar = () => {
             <MDBNavbarBrand
               href="#"
               onClick={() => handleHomePageClick()}
-              style={{ marginRight: "550px" }}>
+              style={{ marginRight: "550px" }}
+            >
               PlanPal
             </MDBNavbarBrand>
 
@@ -388,7 +389,8 @@ const Navbar = () => {
               aria-controls="navbarSupportedContent"
               aria-expanded="false"
               aria-label="Toggle navigation"
-              onClick={() => setShowBasic(!showBasic)}>
+              onClick={() => setShowBasic(!showBasic)}
+            >
               <MDBIcon icon="bars" fas />
             </MDBNavbarToggler>
 
@@ -401,7 +403,8 @@ const Navbar = () => {
                 position: "absolute",
                 right: "0",
                 zIndex: "999",
-              }}>
+              }}
+            >
               {/* ////////////////////////////////////////////// ROLE ADMIN ///////////////////////////////////////////////////////// */}
               {role === "ROLE_ADMIN" && (
                 <>
@@ -412,7 +415,8 @@ const Navbar = () => {
                         color="light"
                         link
                         style={{ marginLeft: "1rem" }}
-                        onClick={() => handleHomePageClick()}>
+                        onClick={() => handleHomePageClick()}
+                      >
                         <MDBIcon fas icon="home" />
                       </MDBBtn>
                     </MDBNavbarItem>
@@ -424,7 +428,8 @@ const Navbar = () => {
                           padding: "5px",
                           width: "80px",
                         }}
-                        className="toggle-without-caret">
+                        className="toggle-without-caret"
+                      >
                         <MDBIcon
                           dark
                           color="dark"
@@ -457,7 +462,8 @@ const Navbar = () => {
                         color="light"
                         link
                         style={{ marginLeft: "1rem" }}
-                        onClick={() => handleHomePageClick()}>
+                        onClick={() => handleHomePageClick()}
+                      >
                         <MDBIcon fas icon="home" />
                       </MDBBtn>
                     </MDBNavbarItem>
@@ -469,7 +475,8 @@ const Navbar = () => {
                           padding: "5px",
                           width: "80px",
                         }}
-                        className="toggle-without-caret">
+                        className="toggle-without-caret"
+                      >
                         <MDBIcon
                           dark
                           color="dark"
@@ -505,7 +512,8 @@ const Navbar = () => {
                         color="light"
                         link
                         style={{ marginLeft: "1rem" }}
-                        onClick={() => handleHomePageClick()}>
+                        onClick={() => handleHomePageClick()}
+                      >
                         <MDBIcon fas icon="home" />
                       </MDBBtn>
                     </MDBNavbarItem>
@@ -517,7 +525,8 @@ const Navbar = () => {
                           padding: "5px",
                           width: "80px",
                         }}
-                        className="toggle-without-caret">
+                        className="toggle-without-caret"
+                      >
                         <MDBIcon
                           fas
                           icon="user-circle"
@@ -555,7 +564,8 @@ const Navbar = () => {
             <MDBNavbarBrand
               href="#"
               onClick={() => handleHomePageClick()}
-              style={{ marginRight: "550px" }}>
+              style={{ marginRight: "550px" }}
+            >
               PlanPal
             </MDBNavbarBrand>
 
@@ -563,7 +573,8 @@ const Navbar = () => {
               aria-controls="navbarSupportedContent"
               aria-expanded="false"
               aria-label="Toggle navigation"
-              onClick={() => setShowBasic(!showBasic)}>
+              onClick={() => setShowBasic(!showBasic)}
+            >
               <MDBIcon icon="bars" fas />
             </MDBNavbarToggler>
 
@@ -576,7 +587,8 @@ const Navbar = () => {
                 position: "absolute",
                 right: "0",
                 zIndex: "999",
-              }}>
+              }}
+            >
               <MDBNavbarNav className="justify-content-end">
                 <MDBNavbarItem>
                   <MDBBtn
@@ -584,7 +596,8 @@ const Navbar = () => {
                     color="light"
                     link
                     style={{ marginLeft: "1rem" }}
-                    onClick={() => handleHomePageClick()}>
+                    onClick={() => handleHomePageClick()}
+                  >
                     <MDBIcon fas icon="home" />
                   </MDBBtn>
                 </MDBNavbarItem>
@@ -597,7 +610,8 @@ const Navbar = () => {
                       padding: "5px",
                       width: "80px",
                     }}
-                    className="toggle-without-caret">
+                    className="toggle-without-caret"
+                  >
                     <MDBIcon
                       fas
                       icon="align-justify"
@@ -605,17 +619,20 @@ const Navbar = () => {
                     />
                   </MDBDropdownToggle>
                   <MDBDropdownMenu
-                    style={{ marginTop: "10px", marginLeft: "20rem" }}>
+                    style={{ marginTop: "10px", marginLeft: "20rem" }}
+                  >
                     <MDBDropdownItem
                       link
                       onClick={handleShowModalReg}
-                      style={{ marginLeft: "1rem" }}>
+                      style={{ marginLeft: "1rem" }}
+                    >
                       <b>Sign up</b>
                     </MDBDropdownItem>
                     <MDBDropdownItem
                       link
                       onClick={handleShowModalLogin}
-                      style={{ marginLeft: "1rem" }}>
+                      style={{ marginLeft: "1rem" }}
+                    >
                       Login
                     </MDBDropdownItem>
                     <hr />
@@ -638,7 +655,8 @@ const Navbar = () => {
             margin: "0 auto",
             marginTop: "100px",
             height: "680px",
-          }}>
+          }}
+        >
           <MDBCardBody style={{ marginRight: "3rem" }}>
             <MDBContainer className="my-5 gradient-form">
               <MDBRow>
@@ -681,7 +699,8 @@ const Navbar = () => {
                           color: "#2F2F2F",
                           boxShadow: "none",
                           borderColor: "#111111",
-                        }}>
+                        }}
+                      >
                         Login
                       </MDBBtn>
                       <a className="text-muted" href="#!">
@@ -698,7 +717,8 @@ const Navbar = () => {
                         onClick={() => {
                           handleShowModalReg();
                           handleCloseModalLogin();
-                        }}>
+                        }}
+                      >
                         Register
                       </a>
                     </div>
@@ -718,7 +738,8 @@ const Navbar = () => {
               backgroundColor: "#2F2F2F",
               color: "#F6F6F6",
               boxShadow: "none",
-            }}>
+            }}
+          >
             Close
           </MDBBtn>
         </MDBCard>
@@ -731,7 +752,8 @@ const Navbar = () => {
             margin: "0 auto",
             marginTop: "100px",
             height: "1000px",
-          }}>
+          }}
+        >
           <MDBCardBody style={{ marginRight: "3rem" }}>
             <MDBContainer className="my-5 gradient-form">
               <MDBRow>
@@ -849,7 +871,8 @@ const Navbar = () => {
                         value={regRole}
                         onChange={handlehRolechange}
                         style={{ marginBottom: "50px", width: "10rem" }}
-                        required>
+                        required
+                      >
                         <option value="Choose user" defaultChecked>
                           select user
                         </option>
@@ -866,7 +889,8 @@ const Navbar = () => {
                         color: "#2F2F2F",
                         boxShadow: "none",
                         borderColor: "#111111",
-                      }}>
+                      }}
+                    >
                       Sign up
                     </MDBBtn>
 
@@ -879,7 +903,8 @@ const Navbar = () => {
                           onClick={() => {
                             handleShowModalLogin();
                             handleCloseModalReg();
-                          }}>
+                          }}
+                        >
                           Login
                         </a>
                       </p>
@@ -900,7 +925,8 @@ const Navbar = () => {
               backgroundColor: "#2F2F2F",
               color: "#F6F6F6",
               boxShadow: "none",
-            }}>
+            }}
+          >
             Close
           </MDBBtn>
         </MDBCard>

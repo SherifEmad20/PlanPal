@@ -4,18 +4,22 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 import requests
 import pandas as pd
+import os
+
 
 app = Flask(__name__)
 
 tokenizer = AutoTokenizer.from_pretrained('nlptown/bert-base-multilingual-uncased-sentiment')
 model = AutoModelForSequenceClassification.from_pretrained('nlptown/bert-base-multilingual-uncased-sentiment')
 
+backend_address = os.getenv("BACKEND_ADDRESS", "http://localhost:8080")
+
 
 @app.route('/getReviews/<int:venue_id>')
 def get_reviews(venue_id):
     try:
         # Make a request to the Spring Boot API
-        url = f"http://localhost:8080/api/v1/venue/getReviews/{venue_id}"
+        url = f"{backend_address}/api/v1/venue/getReviews/{venue_id}"
         response = requests.get(url)
         response.raise_for_status()  # Raise an exception if the request was not successful
 
@@ -40,7 +44,7 @@ def get_reviews(venue_id):
         df['sentiment'] = df['review'].apply(lambda x: sentiment_score(x[:512]))
         average_sentiment = round(df['sentiment'].mean(), 2)
 
-        addRateURL = f"http://localhost:8080/api/v1/venue/rateVenue/{venue_id}/{average_sentiment}"
+        addRateURL = f"{backend_address}/api/v1/venue/rateVenue/{venue_id}/{average_sentiment}"
         requests.put(addRateURL)
 
         return jsonify({'Rating': average_sentiment})

@@ -59,18 +59,18 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let { data } = await axios.post(
-        "http://localhost:8080/api/v1/auth/register",
-        {
-          username: userName,
-          password: password,
-          email: email,
-          firstName: fname,
-          lastName: lname,
-          role: role,
-          phoneNumber: phoneNum,
-        }
-      );
+      const backendBaseUrl =
+        process.env.BACKEND_BASE_URL || "http://localhost:8080/api/v1";
+
+      let { data } = await axios.post(backendBaseUrl + "/auth/register", {
+        username: userName,
+        password: password,
+        email: email,
+        firstName: fname,
+        lastName: lname,
+        role: role,
+        phoneNumber: phoneNum,
+      });
       if (data.message === "success") {
         localStorage.setItem("accessToken", data.token);
         history.push("/");
@@ -355,7 +355,8 @@ function Register() {
                 id="options"
                 value={role}
                 onChange={handlehRolechange}
-                style={{ marginBottom: "50px" }}>
+                style={{ marginBottom: "50px" }}
+              >
                 <option value="Choose user" defaultChecked>
                   {" "}
                   select user
@@ -368,7 +369,8 @@ function Register() {
             <div className="text-center pt-1 mb-5 pb-1">
               <MDBBtn
                 className="mb-4 w-100 gradient-custom-2"
-                onClick={handleSubmit}>
+                onClick={handleSubmit}
+              >
                 Sign up
               </MDBBtn>
             </div>

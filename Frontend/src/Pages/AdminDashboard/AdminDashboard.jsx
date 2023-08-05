@@ -56,11 +56,12 @@ export default function AdminDashboard() {
     };
 
     const getVenues = async () => {
-      await axios
-        .get("http://localhost:8080/api/v1/venue/getAllVenues")
-        .then((res) => {
-          setVenues(res.data);
-        });
+      const backendBaseUrl =
+        process.env.BACKEND_BASE_URL || "http://localhost:8080/api/v1";
+
+      await axios.get(backendBaseUrl + "/venue/getAllVenues").then((res) => {
+        setVenues(res.data);
+      });
     };
 
     const getAll = async () => {
@@ -109,7 +110,8 @@ export default function AdminDashboard() {
             color: "white",
             fontFamily: "IOS Glyph",
           }}
-          fluid>
+          fluid
+        >
           {initials}
         </span>
       </div>
@@ -154,7 +156,8 @@ export default function AdminDashboard() {
               height: "200px", // Adjust the height as needed
               fontSize: "20px",
               fontWeight: "bold",
-            }}>
+            }}
+          >
             <MDBSpinner role="status">
               <span className="visually-hidden">Loading...</span>
             </MDBSpinner>
@@ -171,7 +174,8 @@ export default function AdminDashboard() {
                         style={{
                           display: "flex",
                           justifyContent: "center",
-                        }}>
+                        }}
+                      >
                         {profilePicture ? (
                           // Display vendor profile image if available
                           <MDBCardImage
@@ -311,7 +315,8 @@ export default function AdminDashboard() {
                         height: "25rem",
                         overflowX: "scroll",
                         overflowY: "scroll",
-                      }}>
+                      }}
+                    >
                       <MDBTable responsive hover>
                         <MDBTableHead>
                           <tr>
@@ -345,7 +350,8 @@ export default function AdminDashboard() {
                                       if (confirmed) {
                                         deleteUser(vendor.id);
                                       }
-                                    }}>
+                                    }}
+                                  >
                                     <MDBIcon fas icon="minus-circle" />
                                   </MDBBtn>
                                 </td>
@@ -371,7 +377,8 @@ export default function AdminDashboard() {
                                       if (confirmed) {
                                         deleteUser(user.id);
                                       }
-                                    }}>
+                                    }}
+                                  >
                                     <MDBIcon fas icon="minus-circle" />
                                   </MDBBtn>
                                 </td>
@@ -397,7 +404,8 @@ export default function AdminDashboard() {
                                       if (confirmed) {
                                         deleteUser(guest.id);
                                       }
-                                    }}>
+                                    }}
+                                  >
                                     <MDBIcon fas icon="minus-circle" />
                                   </MDBBtn>
                                 </td>
@@ -419,7 +427,8 @@ export default function AdminDashboard() {
                         height: "25rem",
                         overflowX: "scroll",
                         overflowY: "scroll",
-                      }}>
+                      }}
+                    >
                       <MDBTable responsive hover>
                         <MDBTableHead>
                           <tr>
@@ -464,7 +473,8 @@ export default function AdminDashboard() {
                                           venue.vendorId
                                         );
                                       }
-                                    }}>
+                                    }}
+                                  >
                                     <MDBIcon fas icon="minus-circle" />
                                   </MDBBtn>
                                 </td>

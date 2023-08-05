@@ -21,13 +21,14 @@ export default function GuestPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      await axios
-        .get(`http://localhost:8080/api/v1/user/getGuest/${id}`)
-        .then((res) => {
-          setUser(res.data);
-          setFirstName(res.data.firstName);
-          setRole(res.data.role);
-        });
+      const backendBaseUrl =
+        process.env.BACKEND_BASE_URL || "http://localhost:8080/api/v1";
+
+      await axios.get(backendBaseUrl + `/user/getGuest/${id}`).then((res) => {
+        setUser(res.data);
+        setFirstName(res.data.firstName);
+        setRole(res.data.role);
+      });
     };
     fetchData();
   }, []);
@@ -49,7 +50,8 @@ export default function GuestPage() {
             color: "white",
             fontFamily: "IOS Glyph",
           }}
-          fluid>
+          fluid
+        >
           {initials}
         </span>
       </div>

@@ -10,7 +10,7 @@ ENV MYSQL_ROOT_USER root
 ENV MYSQL_ROOT_PASSWORD root
 
 #Database used in the backend
-ENV MYSQL_DATABASE plan_pal
+ENV MYSQL_DATABASE planPal
 
 #Expose port
 EXPOSE 3306

@@ -79,7 +79,8 @@ const GuestList = () => {
                         <MDBBtn
                           className="me-1"
                           color="danger"
-                          onClick={() => removeFromGuestList(guest.id)}>
+                          onClick={() => removeFromGuestList(guest.id)}
+                        >
                           Remove from list
                         </MDBBtn>
                       </td>

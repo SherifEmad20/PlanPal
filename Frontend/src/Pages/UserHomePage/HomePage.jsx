@@ -68,17 +68,18 @@ export default function HomePage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      await axios
-        .get("http://localhost:8080/api/v1/venue/getAllVenues")
-        .then((res) => {
-          setVenues(res.data);
-          setLoading(false); // Set loading to false after data is fetched
+      const backendBaseUrl =
+        process.env.BACKEND_BASE_URL || "http://localhost:8080/api/v1";
 
-          const filteredVenues = res.data.filter((venue) =>
-            venue.venueName.toLowerCase().includes(searchQuery.toLowerCase())
-          );
-          setSearchResults(filteredVenues);
-        });
+      await axios.get(backendBaseUrl + "/venue/getAllVenues").then((res) => {
+        setVenues(res.data);
+        setLoading(false); // Set loading to false after data is fetched
+
+        const filteredVenues = res.data.filter((venue) =>
+          venue.venueName.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setSearchResults(filteredVenues);
+      });
     };
     fetchData();
   }, []);
@@ -146,9 +147,13 @@ export default function HomePage() {
   };
 
   function getVenuesWithinPriceRange() {
+    const backendBaseUrl =
+      process.env.BACKEND_BASE_URL || "http://localhost:8080/api/v1";
+
     axios
       .get(
-        `http://localhost:8080/api/v1/venue/getVenuesWithinPriceRange/${minPrice}/${maxPrice}`
+        backendBaseUrl +
+          `/venue/getVenuesWithinPriceRange/${minPrice}/${maxPrice}`
       )
       .then((res) => {
         setVenues(res.data);
@@ -205,12 +210,13 @@ export default function HomePage() {
   }
 
   const venueOfType = (type) => {
-    axios
-      .get(`http://localhost:8080/api/v1/venue/getVenueOf/${type}`)
-      .then((res) => {
-        setVenues(res.data);
-        setLoading(false); // Set loading to false after data is fetched
-      });
+    const backendBaseUrl =
+      process.env.BACKEND_BASE_URL || "http://localhost:8080/api/v1";
+
+    axios.get(backendBaseUrl + `/venue/getVenueOf/${type}`).then((res) => {
+      setVenues(res.data);
+      setLoading(false); // Set loading to false after data is fetched
+    });
   };
 
   const getRecommendations = () => {
@@ -254,7 +260,8 @@ export default function HomePage() {
                   fontWeight: "bold",
                   fontFamily: "Bacasime Antique Neue",
                   textAlign: "center",
-                }}>
+                }}
+              >
                 Welcome to PLANPAL
               </MDBTypography>
 
@@ -266,7 +273,8 @@ export default function HomePage() {
                   textAlign: "center",
                   lineHeight: "1.5",
                 }}
-                className=" pb-3 mb-3  text-white mb-0">
+                className=" pb-3 mb-3  text-white mb-0"
+              >
                 Whether you're looking to book a party, post-work gathering,
                 celebratory function, conference,
                 <br /> business meeting, wedding, or private dining event, our
@@ -287,35 +295,40 @@ export default function HomePage() {
         <a
           href="#!"
           onClick={() => venueOfType("Wedding")}
-          className="icon-wrapper">
+          className="icon-wrapper"
+        >
           <MDBIcon className="ico" fas icon="ring" />
           <span>Weddings</span>
         </a>
         <a
           href="#!"
           onClick={() => venueOfType("Birthday")}
-          className="icon-wrapper">
+          className="icon-wrapper"
+        >
           <MDBIcon className="ico" fas icon="birthday-cake" />
           <span>Birthdays</span>
         </a>
         <a
           href="#!"
           onClick={() => venueOfType("CorporateEvent")}
-          className="icon-wrapper">
+          className="icon-wrapper"
+        >
           <MDBIcon className="ico" far icon="calendar-check" />
           <span>Corporate Events</span>
         </a>
         <a
           href="#!"
           onClick={() => venueOfType("Sports")}
-          className="icon-wrapper">
+          className="icon-wrapper"
+        >
           <MDBIcon className="ico" fas icon="futbol" />
           <span>Sports Events</span>
         </a>
         <a
           href="#!"
           onClick={() => venueOfType("WorkingSpace")}
-          className="icon-wrapper">
+          className="icon-wrapper"
+        >
           <MDBIcon className="ico" fas icon="briefcase" />
           <span>Working space</span>
         </a>
@@ -323,7 +336,8 @@ export default function HomePage() {
           <a
             href="#!"
             onClick={() => getRecommendations()}
-            className="icon-wrapper">
+            className="icon-wrapper"
+          >
             <MDBIcon className="ico" fas icon="thumbs-up" />
             <span>Recommendations</span>
           </a>
@@ -332,7 +346,8 @@ export default function HomePage() {
         <a
           href="#!"
           onClick={() => handleShowModalFilter()}
-          className="btn btn-secondary">
+          className="btn btn-secondary"
+        >
           <span>Price range</span>
         </a>
 
@@ -357,7 +372,8 @@ export default function HomePage() {
         <MDBBtn
           className="search-button"
           onClick={() => {}}
-          style={{ backgroundColor: "#F6F6F6", border: "none" }}>
+          style={{ backgroundColor: "#F6F6F6", border: "none" }}
+        >
           <MDBIcon fas icon="search" style={{ color: "black" }} />
         </MDBBtn>
       </form>
@@ -371,7 +387,8 @@ export default function HomePage() {
             height: "200px", // Adjust the height as needed
             fontSize: "20px",
             fontWeight: "bold",
-          }}>
+          }}
+        >
           <MDBSpinner role="status">
             <span className="visually-hidden">Loading...</span>
           </MDBSpinner>
@@ -386,13 +403,15 @@ export default function HomePage() {
                 overflow: "hidden",
                 overflowY: "scroll",
                 scrollbarWidth: "none" /* Hide scrollbar for Firefox */,
-              }}>
+              }}
+            >
               <MDBContainer
                 className="my-5 gradient-form card-container"
                 style={{
                   marginTop: "5rem",
                   marginBottom: "5rem",
-                }}>
+                }}
+              >
                 <MDBRow>
                   <>
                     {(searchQuery ? searchResults : venues).map((venue) => (
@@ -403,7 +422,8 @@ export default function HomePage() {
                             height: "30rem",
                             marginBottom: "6rem",
                           }}
-                          className="MDBCard custom-card">
+                          className="MDBCard custom-card"
+                        >
                           <Carousel showIndicators showControls fade>
                             {venue.venueImagesList.map((image, index) => (
                               <Carousel.Item>
@@ -442,7 +462,8 @@ export default function HomePage() {
                             {/* //////////////////////////////////////////////////////////////////////////////////////////////// */}
 
                             <MDBCardText
-                              style={{ overflowY: "scroll", height: "4rem" }}>
+                              style={{ overflowY: "scroll", height: "4rem" }}
+                            >
                               {venue.venueDescription}
                             </MDBCardText>
                             <MDBCardText>{venue.venuePrice} L.E</MDBCardText>
@@ -457,7 +478,8 @@ export default function HomePage() {
                               }}
                               onClick={() => {
                                 handleShowModal(venue);
-                              }}>
+                              }}
+                            >
                               More details
                             </MDBBtn>
                           </MDBCardBody>
@@ -476,12 +498,14 @@ export default function HomePage() {
                   maxWidth: "600px",
                   margin: "0 auto",
                   marginTop: "100px",
-                }}>
+                }}
+              >
                 <MDBCardBody
                   style={{
                     textAlign: "center", // Added textAlign style
                     fontFamily: "Inter, sans-serif", // Added fontFamily style
-                  }}>
+                  }}
+                >
                   <div style={{ display: "flex" }}>
                     <label style={{ marginRight: "10px" }}>
                       <b>Venue name:</b>
@@ -566,7 +590,8 @@ export default function HomePage() {
                       } else {
                         handleReserveClick(selectedVenue.venueId);
                       }
-                    }}>
+                    }}
+                  >
                     Reserve
                   </MDBBtn>
                   <MDBBtn
@@ -581,7 +606,8 @@ export default function HomePage() {
                       } else {
                         handleAddToFavoriteClick(selectedVenue.venueId);
                       }
-                    }}>
+                    }}
+                  >
                     <MDBIcon fas icon="heart" />
                   </MDBBtn>
                 </div>
@@ -625,7 +651,8 @@ export default function HomePage() {
                             backgroundColor: "#F6F6F6",
                             color: "#2F2F2F",
                             border: "none",
-                          }}>
+                          }}
+                        >
                           <MDBIcon fas icon="arrow-alt-circle-right" />
                         </MDBBtn>
                       </div>
@@ -643,7 +670,8 @@ export default function HomePage() {
                           backgroundColor: "#2F2F2F",
                           color: "#F6F6F6",
                           boxShadow: "none",
-                        }}>
+                        }}
+                      >
                         Close
                       </MDBBtn>
                     </MDBCardFooter>
@@ -659,7 +687,8 @@ export default function HomePage() {
                 maxWidth: "600px",
                 margin: "0 auto",
                 marginTop: "100px",
-              }}>
+              }}
+            >
               <MDBCardBody>
                 <MDBInput
                   label="Minimum price"
@@ -692,7 +721,8 @@ export default function HomePage() {
                     backgroundColor: "#FFCB74",
                     color: "#111111",
                     borderColor: "#111111",
-                  }}>
+                  }}
+                >
                   submit
                 </MDBBtn>
               </MDBCardBody>
@@ -703,7 +733,8 @@ export default function HomePage() {
                   position: "absolute",
                   bottom: "10px",
                   right: "10px",
-                }}>
+                }}
+              >
                 Close
               </MDBBtn>
             </MDBCard>

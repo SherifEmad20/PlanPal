@@ -28,13 +28,13 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let { data } = await axios.post(
-        "http://localhost:8080/api/v1/auth/login",
-        {
-          username: userName,
-          password: password,
-        }
-      );
+      const backendBaseUrl =
+        process.env.BACKEND_BASE_URL || "http://localhost:8080/api/v1";
+
+      let { data } = await axios.post(backendBaseUrl + "/auth/login", {
+        username: userName,
+        password: password,
+      });
       console.log(data.message);
       if (data.message === "success") {
         localStorage.setItem("accessToken", data.token);
@@ -80,7 +80,8 @@ function Login() {
             <div className="text-center pt-1 mb-5 pb-1">
               <MDBBtn
                 className="mb-4 w-100 gradient-custom-2"
-                onClick={handleSubmit}>
+                onClick={handleSubmit}
+              >
                 Sign in
               </MDBBtn>
               <a className="text-muted" href="#!">
