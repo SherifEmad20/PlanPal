@@ -15,6 +15,11 @@ model = AutoModelForSequenceClassification.from_pretrained('nlptown/bert-base-mu
 backend_address = os.getenv("BACKEND_ADDRESS", "http://localhost:8080")
 
 
+@app.route('/')
+def index():
+    return "Server is running! \n"
+
+
 @app.route('/getReviews/<int:venue_id>')
 def get_reviews(venue_id):
     try:

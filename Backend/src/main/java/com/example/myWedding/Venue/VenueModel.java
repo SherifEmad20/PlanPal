@@ -103,7 +103,9 @@ public class VenueModel {
     public Iterable<Venue> getAllVenues() {
         try {
             for (int i = 0; i < venueRepository.findAll().size(); i++) {
-                String BASE_URL = "http://${ML_ADDRESS:127.0.0.1}:${ML_PORT:5000}";
+                String mlAddress = System.getenv("ML_ADDRESS");
+                String mlPort = System.getenv("ML_PORT");
+                String BASE_URL = "http://" + mlAddress + ":" + mlPort;
                 System.out.println(BASE_URL);
                 HttpClient.newHttpClient().send(HttpRequest.newBuilder()
                         .uri(URI.create(BASE_URL + "/getReviews/" +
