@@ -28,6 +28,13 @@ function Register() {
 
   const history = useHistory();
 
+  const backendBaseUrl =
+  process.env.REACT_APP_BACKEND_BASE_URL;
+
+  console.log(backendBaseUrl);
+
+
+
   // const handleUserNameChange = (e) => {
   //   setUserName(e.target.value);
   // };
@@ -59,8 +66,6 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const backendBaseUrl =
-        process.env.BACKEND_BASE_URL || "http://localhost:8080/api/v1";
 
       let { data } = await axios.post(backendBaseUrl + "/auth/register", {
         username: userName,

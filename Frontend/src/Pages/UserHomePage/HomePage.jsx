@@ -8,6 +8,8 @@ import axios from "axios";
 import Carousel from "react-bootstrap/Carousel";
 import validator from "validator";
 import { Card } from "react-bootstrap";
+import dotenv from "dotenv";
+
 
 import "./HomePage.css";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
@@ -44,6 +46,12 @@ export default function HomePage() {
 
   const history = useHistory();
 
+  dotenv.config();
+
+  const backendBaseUrl = process.env.BACKEND_BASE_URL;
+
+  console.log(backendBaseUrl);
+
   let UID;
   let token;
   try {
@@ -68,8 +76,6 @@ export default function HomePage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const backendBaseUrl =
-        process.env.BACKEND_BASE_URL || "http://localhost:8080/api/v1";
 
       await axios.get(backendBaseUrl + "/venue/getAllVenues").then((res) => {
         setVenues(res.data);
@@ -147,9 +153,6 @@ export default function HomePage() {
   };
 
   function getVenuesWithinPriceRange() {
-    const backendBaseUrl =
-      process.env.BACKEND_BASE_URL || "http://localhost:8080/api/v1";
-
     axios
       .get(
         backendBaseUrl +
@@ -210,8 +213,6 @@ export default function HomePage() {
   }
 
   const venueOfType = (type) => {
-    const backendBaseUrl =
-      process.env.BACKEND_BASE_URL || "http://localhost:8080/api/v1";
 
     axios.get(backendBaseUrl + `/venue/getVenueOf/${type}`).then((res) => {
       setVenues(res.data);

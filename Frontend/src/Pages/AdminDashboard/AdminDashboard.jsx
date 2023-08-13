@@ -4,6 +4,7 @@ import jwtDecode from "jwt-decode";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
+import dotenv from "dotenv";
 
 import {
   MDBCol,
@@ -35,6 +36,14 @@ export default function AdminDashboard() {
 
   const history = useHistory();
 
+  // const backendBaseUrl = process.env.REACT_APP_BACKEND_BASE_URL;
+
+  dotenv.config();
+
+  const backendBaseUrl = process.env.BACKEND_BASE_URL;
+
+  console.log(backendBaseUrl);
+
   let role;
   let id;
   try {
@@ -56,8 +65,6 @@ export default function AdminDashboard() {
     };
 
     const getVenues = async () => {
-      const backendBaseUrl =
-        process.env.BACKEND_BASE_URL || "http://localhost:8080/api/v1";
 
       await axios.get(backendBaseUrl + "/venue/getAllVenues").then((res) => {
         setVenues(res.data);

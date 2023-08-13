@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: planpal-ratingService-deployment
+labels:
+  app: planpal-ratingService-deployment
+
+spec:
+  selector:
+    matchLabels:
+      app: planpal-ratingService-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: planpal-ratingService-deployment
+    spec:
+      containers:
+        - name: planpal-ratingService-container
+          image: docker.io/sherifemad21/planpal:rating-service
+          ports:
+            - containerPort: 5000
+          env: # Setting Enviornmental Variables
+            - name: BACKEND_ADDRESS 
+              value: planpal-backend-service
+            # - name: ML_ADDRESS 
+            #   value: planpal-database-service
+            # - name: ML_PORT 
+            #   value: planpal-database-service
+
+---
+apiVersion: v1 
+kind: Service
+metadata: 
+  name: planpal-ratingService-service
+spec:
+  selector:
+    app: planpal-ratingService-deployment
+
+  ports:
+    - protocol: TCP
+      port: 5000 # The port that the service is running on in the cluster
+      targetPort: 5000 # The port exposed by the service

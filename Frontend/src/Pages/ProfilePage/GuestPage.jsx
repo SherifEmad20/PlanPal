@@ -3,6 +3,8 @@ import { api } from "../axios.js";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
+import dotenv from "dotenv";
+
 
 import {
   MDBCol,
@@ -19,10 +21,18 @@ export default function GuestPage() {
   const [role, setRole] = useState("");
   const { id } = useParams();
 
+  dotenv.config({path: "../../.env"});
+
+
+  // const backendBaseUrl = process.env.REACT_APP_BACKEND_BASE_URL;
+
+  const backendBaseUrl = process.env.BACKEND_BASE_URL;
+
+  console.log(backendBaseUrl);
+
+
   useEffect(() => {
     const fetchData = async () => {
-      const backendBaseUrl =
-        process.env.BACKEND_BASE_URL || "http://localhost:8080/api/v1";
 
       await axios.get(backendBaseUrl + `/user/getGuest/${id}`).then((res) => {
         setUser(res.data);

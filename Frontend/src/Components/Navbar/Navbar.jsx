@@ -7,6 +7,8 @@ import "react-phone-input-2/lib/style.css";
 import axios from "axios";
 import ImageBody from "../../Images/PlanPal.png";
 import Image from "../../Images/PlanPal-removebg-preview.png";
+import dotenv from "dotenv";
+
 
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -42,6 +44,16 @@ const Navbar = () => {
   const [showModalLogin, setShowModalLogin] = useState(false);
   const [showModalRegister, setShowModalRegister] = useState(false);
   const history = useHistory();
+
+  // const backendBaseUrl = process.env.REACT_APP_BACKEND_BASE_URL;
+
+  dotenv.config();
+
+  const backendBaseUrl = process.env.BACKEND_BASE_URL;
+
+
+  console.log(backendBaseUrl);
+
 
   let role;
   let token;
@@ -168,9 +180,8 @@ const Navbar = () => {
       return;
     }
 
+
     try {
-      const backendBaseUrl =
-        process.env.BACKEND_BASE_URL || "http://localhost:8080/api/v1";
 
       let { data } = await axios.post(backendBaseUrl + "/auth/register", {
         username: userName,
@@ -347,8 +358,6 @@ const Navbar = () => {
     }
 
     try {
-      const backendBaseUrl =
-        process.env.BACKEND_BASE_URL || "http://localhost:8080/api/v1";
 
       let { data } = await axios.post(backendBaseUrl + "/auth/login", {
         username: loginUserName,

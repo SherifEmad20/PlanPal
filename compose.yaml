@@ -3,7 +3,7 @@ version: "3.8"
 services:
   # Database
   db:
-    image: mysql:latest
+    image: mysql:5.7
 
     expose:
       - 3306
@@ -58,14 +58,14 @@ services:
 
   # Frontend
   planpal_frontend:
-    image: docker.io/sherifemad21/planpal:frontend
+    image: docker.io/sherifemad21/planpal:frontendv4
 
     # build:
     #   context: ./Frontend
     #   dockerfile: Dockerfile
 
     environment:
-      - BACKEND_BASE_URL=http://planpal-backend:8080
+      - REACT_APP_BACKEND_BASE_URL=http://planpal-backend:8080
 
     ports:
       - "3000:80"
@@ -85,32 +85,32 @@ services:
     networks:
       - planpal
 
-  # ML model
-  bertNlt:
-    image: docker.io/sherifemad21/planpal:rating-service
+  # # ML model
+  # bertNlt:
+  #   image: docker.io/sherifemad21/planpal:rating-service
 
-    # build:
-    #   context: ./RatingService
-    #   dockerfile: Dockerfile
+  #   # build:
+  #   #   context: ./RatingService
+  #   #   dockerfile: Dockerfile
 
-    restart: always
+  #   restart: always
     
-    ports:
-      - "5000:5000"
+  #   ports:
+  #     - "5000:5000"
 
-    environment:
-      - BACKEND_ADDRESS=http://planpal-backend:8080 # Use the service name as the address
+  #   environment:
+  #     - BACKEND_ADDRESS=http://planpal-backend:8080 # Use the service name as the address
 
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://planpal-backend:8080/api/v1/venue/getAllVenues || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 10
-      start_period: 15s
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "curl -f http://planpal-backend:8080/api/v1/venue/getAllVenues || exit 1"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 10
+  #     start_period: 15s
 
 
-    networks:
-      - planpal
+    # networks:
+    #   - planpal
 
 networks:
   planpal:

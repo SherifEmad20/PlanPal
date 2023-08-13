@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: planpal-frontend-deployment
+  labels:
+    app: planpal-frontend-deployment
+
+spec:
+  selector:
+    matchLabels:
+      app: planpal-frontend-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: planpal-frontend-deployment
+    spec:
+      containers:
+        - name: planpal-frontend-container
+          image: docker.io/sherifemad21/planpal:frontend-10-00-26
+          ports:
+            - containerPort: 80
+          env: # Setting Enviornmental Variables
+            - name: BACKEND_BASE_URL 
+              value: "http://planpal-backend-service:8080/api/v1" # Use the correct service name
+---
+apiVersion: v1 
+kind: Service
+metadata: 
+  name: planpal-frontend-service
+spec:
+  type: NodePort
+  selector:
+    app: planpal-frontend-deployment
+
+  ports:
+    - port: 80 # The port that the service is running on in the cluster
+      targetPort: 80 # The port exposed by the service
+      protocol: TCP
+      nodePort: 31000

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: planpal-backend-deployment
+  labels:
+    app: planpal-backend-deployment
+
+spec:
+  selector:
+    matchLabels:
+      app: planpal-backend-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: planpal-backend-deployment
+    spec:
+      containers:
+        - name: planpal-backend-container
+          image: docker.io/sherifemad21/planpal:backend
+          ports:
+            - containerPort: 8080
+          env: # Setting Enviornmental Variables
+            - name: DB_ADDRESS 
+              value: planpal-database-service
+            - name: DB_PORT 
+              value: "3306"
+            - name: DB_USERNAME 
+              value: root
+            - name: DB_PASSWORD 
+              value: root
+            - name: DB_NAME 
+              value: planPal
+            - name: ML_ADDRESS 
+              value: planpal-ratingService-service
+            - name: ML_PORT 
+              value: "5000"
+
+---
+apiVersion: v1 
+kind: Service
+metadata: 
+  name: planpal-backend-service
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 8080 # The port that the service is running on in the cluster
+      targetPort: 8080 # The port exposed by the service
+
+  selector:
+    app: planpal-backend-deployment
+  clusterIP: None
+  
+  
