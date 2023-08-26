@@ -10,14 +10,11 @@
 // export { api };
 
 import axios from "axios";
-import dotenv from "dotenv";
-
-dotenv.config();
-
 
 const token = localStorage.getItem("accessToken");
-const backendBaseUrl = process.env.BACKEND_BASE_URL;
-  // || "http://localhost:8080/api/v1"
+// Read the backend base URL from the environment variable
+const backendBaseUrl =
+  process.env.BACKEND_BASE_URL || "http://localhost:8080/api/v1";
 
 const api = axios.create({
   baseURL: backendBaseUrl,

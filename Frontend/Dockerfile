@@ -56,10 +56,8 @@ WORKDIR /app
 # Clear node cache
 RUN npm cache clean --force
 
-# RUN npm config set registry https://registry.yarnpkg.com/
-
-# # Update node version
-# RUN npm install -g npm@latest
+# Update node version
+RUN npm install -g npm@9.8.1
 
 # Copy package.json and package-lock.json
 COPY package.json ./
