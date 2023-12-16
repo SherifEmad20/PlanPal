@@ -25,9 +25,9 @@ services:
   planpal-backend:
     image: docker.io/sherifemad21/planpal:backend
 
-    # build:
-    #   context: ./Backend
-    #   dockerfile: Dockerfile
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
 
     environment:
       - DB_ADDRESS=db
@@ -41,7 +41,7 @@ services:
 
     depends_on:
       - db
-      # - bert_nlt
+      - bertNlt
 
     ports:
       - "8080:8080"
@@ -60,9 +60,9 @@ services:
   planpal_frontend:
     image: docker.io/sherifemad21/planpal:frontend
 
-    # build:
-    #   context: ./Frontend
-    #   dockerfile: Dockerfile
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
 
     environment:
       - BACKEND_BASE_URL=http://planpal-backend:8080
@@ -89,9 +89,9 @@ services:
   bertNlt:
     image: docker.io/sherifemad21/planpal:rating-service
 
-    # build:
-    #   context: ./RatingService
-    #   dockerfile: Dockerfile
+    build:
+      context: ./RatingService
+      dockerfile: Dockerfile
 
     restart: always
     
